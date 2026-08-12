@@ -73,6 +73,5 @@ unless required by applicable law.
 
 -----------------------------------------------------------------------------
 
-官方考卷不随仓库分发 (Official exams are not distributed with this
-repository): 本仓库仅含公开演示考卷 (exams/exam_pearson_demo.json)。
-官方考卷为闭源交付物, 经授权送考, 不在此仓库内。
+Exam content: all exam files in this repository (exams/, experiments/)
+are open and re-derivable from their specs; no closed exams are distributed.
