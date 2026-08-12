@@ -1,0 +1,228 @@
+{
+  "name": "anchor_ar1",
+  "family": "conclusion_anchor",
+  "layer": "L3",
+  "constraint_type": "conclusion_anchor",
+  "description": "结论锚 AR(1) 合成实例: 规格声明的数据链契约 = 'x_t 平稳 AR(1) 下, 正确 t 预测区间覆盖 ≈ 名义值'。x_t = rho*x_{t-1} + eps_t, eps ~ N(0, 1-rho^2), 乘 sqrt(1-rho^2) 使边际 N(0,1) (expD 同码)。rho=0.98 (强自相关) 下 adjacent 目标 (y = rho*x_n + eps) 覆盖率塌缩 -> known FAIL (expD 已证 0.8905/0.8750), independent 目标 (y ~ N(0,1), iid 行重抽样语义) 塌缩更剧 0.3965/0.5035 -> FAIL; rho=0 (真 iid) 4 格 0.9430-0.9500 全 ≥ T=0.91 -> PASS (expD 已证)。判定规则: expD 同款 cov_hat < T=0.91 即 FAIL (固定阈值, 无 SE)。",
+  "datasets": {
+    "ar1": {
+      "kind": "generator_ar1",
+      "params": {
+        "eps_var": "eps ~ N(0, 1-rho^2), 乘 sqrt(1-rho^2) 使边际 N(0,1)",
+        "note": "expD run_ar1.py 同码; rho/n/target 逐链声明在 chains[].dataset_params"
+      }
+    },
+    "synthetic_normal": {
+      "kind": "generator_normal",
+      "params": {
+        "loc": 0.0,
+        "scale": 1.0,
+        "note": "独立目标 y 的边际分布 (N(0,1))"
+      }
+    }
+  },
+  "designs": {},
+  "chains": [
+    {
+      "name": "ar1_rho0_n10_adjacent",
+      "dataset": "ar1",
+      "dataset_params": {
+        "rho": 0.0,
+        "n": 10,
+        "target": "adjacent"
+      },
+      "design": null,
+      "method": "pred_ci_correct",
+      "target": "y = rho*x_n + eps_next (相邻目标, 机器人'下一行'语义)",
+      "n_sims": 2000,
+      "seed": {
+        "seed_base": 20260810,
+        "cell_index": 0
+      },
+      "control": null,
+      "verdict_rule": {
+        "type": "threshold_lt",
+        "threshold": "T"
+      },
+      "known_conclusion": "PASS",
+      "note": "expD 格 rho=0, n=10, adjacent (已证 0.9430)"
+    },
+    {
+      "name": "ar1_rho0_n10_independent",
+      "dataset": "ar1",
+      "dataset_params": {
+        "rho": 0.0,
+        "n": 10,
+        "target": "independent"
+      },
+      "design": null,
+      "method": "pred_ci_correct",
+      "target": "y ~ N(0,1) 独立 (iid 重抽样语义)",
+      "n_sims": 2000,
+      "seed": {
+        "seed_base": 20260810,
+        "cell_index": 1
+      },
+      "control": null,
+      "verdict_rule": {
+        "type": "threshold_lt",
+        "threshold": "T"
+      },
+      "known_conclusion": "PASS",
+      "note": "expD 格 rho=0, n=10, independent (已证 0.9495)"
+    },
+    {
+      "name": "ar1_rho0_n30_adjacent",
+      "dataset": "ar1",
+      "dataset_params": {
+        "rho": 0.0,
+        "n": 30,
+        "target": "adjacent"
+      },
+      "design": null,
+      "method": "pred_ci_correct",
+      "target": "y = rho*x_n + eps_next (相邻目标)",
+      "n_sims": 2000,
+      "seed": {
+        "seed_base": 20260810,
+        "cell_index": 2
+      },
+      "control": null,
+      "verdict_rule": {
+        "type": "threshold_lt",
+        "threshold": "T"
+      },
+      "known_conclusion": "PASS",
+      "note": "expD 格 rho=0, n=30, adjacent (已证 0.9460)"
+    },
+    {
+      "name": "ar1_rho0_n30_independent",
+      "dataset": "ar1",
+      "dataset_params": {
+        "rho": 0.0,
+        "n": 30,
+        "target": "independent"
+      },
+      "design": null,
+      "method": "pred_ci_correct",
+      "target": "y ~ N(0,1) 独立",
+      "n_sims": 2000,
+      "seed": {
+        "seed_base": 20260810,
+        "cell_index": 3
+      },
+      "control": null,
+      "verdict_rule": {
+        "type": "threshold_lt",
+        "threshold": "T"
+      },
+      "known_conclusion": "PASS",
+      "note": "expD 格 rho=0, n=30, independent (已证 0.9500)"
+    },
+    {
+      "name": "ar1_rho098_n10_adjacent",
+      "dataset": "ar1",
+      "dataset_params": {
+        "rho": 0.98,
+        "n": 10,
+        "target": "adjacent"
+      },
+      "design": null,
+      "method": "pred_ci_correct",
+      "target": "y = rho*x_n + eps_next (相邻目标, 强自相关)",
+      "n_sims": 2000,
+      "seed": {
+        "seed_base": 20260810,
+        "cell_index": 4
+      },
+      "control": null,
+      "verdict_rule": {
+        "type": "threshold_lt",
+        "threshold": "T"
+      },
+      "known_conclusion": "FAIL",
+      "note": "expD 格 rho=0.98, n=10, adjacent (已证 0.8905)"
+    },
+    {
+      "name": "ar1_rho098_n10_independent",
+      "dataset": "ar1",
+      "dataset_params": {
+        "rho": 0.98,
+        "n": 10,
+        "target": "independent"
+      },
+      "design": null,
+      "method": "pred_ci_correct",
+      "target": "y ~ N(0,1) 独立 (iid 重抽样语义, 强自相关)",
+      "n_sims": 2000,
+      "seed": {
+        "seed_base": 20260810,
+        "cell_index": 5
+      },
+      "control": null,
+      "verdict_rule": {
+        "type": "threshold_lt",
+        "threshold": "T"
+      },
+      "known_conclusion": "FAIL",
+      "note": "expD 格 rho=0.98, n=10, independent (已证 0.3965)"
+    },
+    {
+      "name": "ar1_rho098_n30_adjacent",
+      "dataset": "ar1",
+      "dataset_params": {
+        "rho": 0.98,
+        "n": 30,
+        "target": "adjacent"
+      },
+      "design": null,
+      "method": "pred_ci_correct",
+      "target": "y = rho*x_n + eps_next (相邻目标, 强自相关)",
+      "n_sims": 2000,
+      "seed": {
+        "seed_base": 20260810,
+        "cell_index": 6
+      },
+      "control": null,
+      "verdict_rule": {
+        "type": "threshold_lt",
+        "threshold": "T"
+      },
+      "known_conclusion": "FAIL",
+      "note": "expD 格 rho=0.98, n=30, adjacent (已证 0.8750)"
+    },
+    {
+      "name": "ar1_rho098_n30_independent",
+      "dataset": "ar1",
+      "dataset_params": {
+        "rho": 0.98,
+        "n": 30,
+        "target": "independent"
+      },
+      "design": null,
+      "method": "pred_ci_correct",
+      "target": "y ~ N(0,1) 独立 (iid 重抽样语义, 强自相关)",
+      "n_sims": 2000,
+      "seed": {
+        "seed_base": 20260810,
+        "cell_index": 7
+      },
+      "control": null,
+      "verdict_rule": {
+        "type": "threshold_lt",
+        "threshold": "T"
+      },
+      "known_conclusion": "FAIL",
+      "note": "expD 格 rho=0.98, n=30, independent (已证 0.5035)"
+    }
+  ],
+  "thresholds": {
+    "T": 0.91,
+    "nominal": 0.95,
+    "se_formula": null,
+    "correct_rule": "cov_hat < T=0.91 即 FAIL else PASS (expD 同款固定阈值, 无 SE)",
+    "defect_rule": "不适用 (无变体对照)",
+    "defect_cov_max": null,
+    "separation_min": null
+  }
+}

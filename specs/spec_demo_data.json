@@ -1,0 +1,45 @@
+{
+  "name": "demo_data_apple_to_plate_dirty",
+  "family": "demo_data",
+  "constraint_type": "demo_data",
+  "description": "E1 示教数据信号级脏样本检测 (AppleToPlate / Unitree G1, 402 轨迹): NaN / 关节限位 / 帧间跳变 三类注入检测; 判据锁定自第五轮讨论_2026-08-10 轮8/10 B (检出>=54/60 且 误杀<=1/30)",
+  "root": "/Users/nister/Desktop/北极星/robotdata/apple_to_plate/data/chunk-000",
+  "observation_col": "observation.state",
+  "expected_n_files": 402,
+  "dims": 43,
+  "seed": 20260811,
+  "tol": 0.01,
+  "jump_thresh": 0.5,
+  "limit_factor": 1.1,
+  "n_fp": 30,
+  "n_per_type": 20,
+  "criteria": {
+    "min_detected": 54,
+    "max_fp": 1,
+    "note": "detected>=54/60 and fp<=1/30"
+  },
+  "limit_source": "data_driven_frozen (全量干净数据冻结 min/max x (1±tol), 注入前冻结; R1 双轨处置: 官方 G1 关节限位见 reference_limits 对照档, 入档不参与检测, 决策记录见第五轮讨论_2026-08-10/阶段1_限位规格搜索.md)",
+  "reference_limits": {
+    "source": "Unitree G1 官方开发者文档 (support.unitree.com/home/en/G1_developer), 2026-08-10 检索; 与数据集 meta/info.json robot_type=unitree_g1 对应",
+    "unit": "rad",
+    "note": "本体 29 关节可得; 双手 14 关节官方数值未公开。43 维 state 逐维->关节名映射未在数据集声明(仅分组顺序: left_leg6+right_leg6+waist3+left_arm7+right_arm7+left_hand7+right_hand7), 故仅作对照档案",
+    "joints": {
+      "leg_hip_pitch": [-2.5307, 2.8798],
+      "leg_hip_roll": [-0.5236, 2.9671],
+      "leg_hip_yaw": [-2.7576, 2.7576],
+      "leg_knee": [-0.087267, 2.8798],
+      "leg_ankle_pitch": [-0.87267, 0.5236],
+      "leg_ankle_roll": [-0.2618, 0.2618],
+      "waist_yaw": [-2.618, 2.618],
+      "waist_roll": [-0.52, 0.52],
+      "waist_pitch": [-0.52, 0.52],
+      "shoulder_pitch": [-3.0892, 2.6704],
+      "shoulder_roll": [-1.5882, 2.2515],
+      "shoulder_yaw": [-2.618, 2.618],
+      "elbow": [-1.0472, 2.0944],
+      "wrist_roll": [-1.972222054, 1.972222054],
+      "wrist_pitch": [-1.614429558, 1.614429558],
+      "wrist_yaw": [-1.614429558, 1.614429558]
+    }
+  }
+}

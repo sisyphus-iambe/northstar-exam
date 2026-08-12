@@ -1,0 +1,46 @@
+{
+  "name": "wilcoxon_rank_sum",
+  "family": "wilcoxon",
+  "description": "Wilcoxon 秩和检验 (两独立样本, 连续分布): W = 较小样本秩和, 正态近似或精确分布",
+  "inputs": {
+    "type": "two_samples",
+    "shape": "n1+n2",
+    "value": "real"
+  },
+  "outputs": {
+    "type": "pvalue",
+    "range": [0, 1]
+  },
+  "statistic": {
+    "name": "wilcoxon_rank_sum"
+  },
+  "null_dist": {
+    "type": "iid_two_samples",
+    "cont": {"distribution": "uniform", "lo": 0.0, "hi": 1.0, "n1": 200, "n2": 200},
+    "disc": {"distribution": "uniform", "lo": 0.0, "hi": 1.0, "n1": 10, "n2": 10}
+  },
+  "function": "wilcoxon_pvalue",
+  "reference": {
+    "refs": ["ref_hand_ranksum", "ref_scipy_ranksums"],
+    "agree_tol": 1e-9,
+    "self_check": [
+      {
+        "name": "identical_samples",
+        "input": {"type": "two_samples", "x": [1.0, 2.0, 3.0], "y": [1.0, 2.0, 3.0]},
+        "expected": 1.0
+      }
+    ],
+    "self_check_tol": 1e-9
+  },
+  "l1": {
+    "n_tables": 2000,
+    "points": [0.01, 0.05, 0.1],
+    "ks_slack": 0.02,
+    "cont_point_slack": 0.02,
+    "cont_mean_slack": 0.03,
+    "disc_point_slack": 0.02,
+    "disc_mean_max": 0.54,
+    "runs": 3,
+    "seed_base": 20260807
+  }
+}

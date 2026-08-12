@@ -1,0 +1,23 @@
+{
+  "schema": 1,
+  "candidates": {
+    "chain_listwise_correct": {
+      "name": "chain_listwise_correct",
+      "language": "py",
+      "family": "chain",
+      "source_rel": "mcp/candidates/chain_listwise_correct.py"
+    },
+    "chain_constant_wrong": {
+      "name": "chain_constant_wrong",
+      "language": "py",
+      "family": "chain",
+      "source_rel": "mcp/candidates/chain_constant_wrong.py"
+    },
+    "chain_constant_wrong_v2": {
+      "name": "chain_constant_wrong_v2",
+      "language": "py",
+      "family": "chain",
+      "source_rel": "mcp/candidates/chain_constant_wrong_v2/chain_constant_wrong_v2.py"
+    }
+  }
+}

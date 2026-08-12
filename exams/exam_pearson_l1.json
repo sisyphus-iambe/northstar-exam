@@ -1,0 +1,154 @@
+{
+  "tool": "spsl",
+  "version": "0.2.0",
+  "layer": "L1",
+  "name": "pearson_chi2",
+  "family": "pearson_chi2",
+  "spec": {
+    "name": "pearson_chi2",
+    "family": "pearson_chi2",
+    "description": "Pearson 卡方独立性检验: chi2 = sum((O-E)^2/E), E_ij = R_i*C_j/n, dof = (r-1)(c-1)",
+    "inputs": {
+      "type": "contingency_table",
+      "shape": "rxc",
+      "value": "nonneg_counts"
+    },
+    "outputs": {
+      "type": "pvalue",
+      "range": [
+        0,
+        1
+      ]
+    },
+    "statistic": {
+      "name": "pearson_chi2",
+      "dof": "(r-1)*(c-1)"
+    },
+    "null_dist": {
+      "type": "multinomial_independence",
+      "cont": {
+        "n": 500,
+        "row_p": [
+          0.3,
+          0.3,
+          0.4
+        ],
+        "col_p": [
+          0.2,
+          0.25,
+          0.3,
+          0.25
+        ]
+      },
+      "disc": {
+        "n": 30,
+        "row_p": [
+          0.5,
+          0.5
+        ],
+        "col_p": [
+          0.3333333333333333,
+          0.3333333333333333,
+          0.3333333333333333
+        ]
+      }
+    },
+    "function": "chi2_pvalue",
+    "reference": {
+      "refs": [
+        "ref_hand_chi2",
+        "ref_scipy_chi2"
+      ],
+      "agree_tol": 1e-09,
+      "self_check": [
+        {
+          "name": "identity_2x2",
+          "input": {
+            "type": "contingency_table",
+            "table": [
+              [
+                1,
+                1
+              ],
+              [
+                1,
+                1
+              ]
+            ]
+          },
+          "expected": 1.0
+        }
+      ],
+      "self_check_tol": 1e-09
+    },
+    "l1": {
+      "n_tables": 2000,
+      "points": [
+        0.01,
+        0.05,
+        0.1
+      ],
+      "ks_slack": 0.02,
+      "cont_point_slack": 0.02,
+      "cont_mean_slack": 0.03,
+      "disc_point_slack": 0.02,
+      "disc_mean_max": 0.54,
+      "runs": 3,
+      "seed_base": 20260807
+    }
+  },
+  "spec_md5": "d69e3ad1033827a6d699d84372f792f0",
+  "l1": {
+    "generator": "multinomial_independence",
+    "n_tables": 2000,
+    "cont": {
+      "n": 500,
+      "row_p": [
+        0.3,
+        0.3,
+        0.4
+      ],
+      "col_p": [
+        0.2,
+        0.25,
+        0.3,
+        0.25
+      ],
+      "type": "multinomial_independence"
+    },
+    "disc": {
+      "n": 30,
+      "row_p": [
+        0.5,
+        0.5
+      ],
+      "col_p": [
+        0.3333333333333333,
+        0.3333333333333333,
+        0.3333333333333333
+      ],
+      "type": "multinomial_independence"
+    },
+    "points": [
+      0.01,
+      0.05,
+      0.1
+    ],
+    "thresholds": {
+      "ks_crit_99": 0.036447908033246566,
+      "ks_slack": 0.02,
+      "ks_crit_99_plus_slack": 0.05644790803324656,
+      "cont_point_slack": 0.02,
+      "cont_mean_slack": 0.03,
+      "disc_point_slack": 0.02,
+      "disc_mean_max": 0.54
+    },
+    "seeds": [
+      20260807,
+      20260808,
+      20260809
+    ],
+    "protocol": "H0 resampling: contingency tables resampled until all margins > 0 (calibrator/l1.py:43-48); two-sample = independent draws from continuous distributions. NaN/non-finite p-values do not count as passing -> this cell/seed fails (design D1; v1 same: calibrator/l1.py:66-82 cont_finite/disc_finite). Verdict: reject fraction <=10% = PASS, >=90% = REJECT, else MIXED (run_verify.py:36-37/58-64)."
+  },
+  "content_md5": "18d1872c5531cd1e47907e62af45f329"
+}

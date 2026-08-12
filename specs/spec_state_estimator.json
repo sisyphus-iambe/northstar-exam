@@ -1,0 +1,16 @@
+{
+  "name": "state_estimator_rotation_identity",
+  "family": "state_estimator",
+  "constraint_type": "state_estimator",
+  "description": "E3 旋转恒等式考卷: 考生 q_to_R + R_to_q 双函数模块过 P1-P5 循环恒等式 (P1 范数 / P2 正交 / P3 det / P4 M->q->M' / P5 q->R->q' 含 ±q 判等); 判据锁定自第五轮讨论_2026-08-10 轮8/9/10 B (正确 0 违例 PASS / 变异 >=90% REJECT / 误杀 0/60)",
+  "functions": ["q_to_R", "R_to_q"],
+  "seed": 20260813,
+  "tol": 1e-6,
+  "n_m": 30,
+  "n_q": 30,
+  "criteria": {
+    "correct": "0 violations -> PASS",
+    "mutant": ">=90% REJECT",
+    "false_alarm": "0/60"
+  }
+}

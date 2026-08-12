@@ -1,0 +1,1 @@
+{"logic": "AND", "conditions": [{"stat": "a", "year": 2025, "op": ">=", "value": 3.0}, {"stat": "prr", "year": 2025, "op": ">=", "value": 2.0}]}

@@ -1,0 +1,43 @@
+# 北极星 v3 阶段 4 — 级 4 形态 CI 示例 (GitHub Actions)
+#
+# 触发: push / pull_request -> 批量确定性检查 (两遍运行逐字节 cmp + md5).
+# 注意: 本 workflow 示例未在真实 GitHub runner 上验证 (本机无 runner);
+#       本地等价命令: /tmp/g2venv/bin/python ci/batch_determinism.py
+# 依赖: 考官 (stage2/3) 需与工作区同级, 见 README §使用说明.
+name: northstar-v3-stage4-determinism
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  batch-determinism:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          path: northstar_v3_stage4
+      # 考官代码: 同仓库时并排检出 (stage2/3 子目录), 或改为子模块/独立仓库
+      - uses: actions/checkout@v4
+        with:
+          repository: northstar-v3/stage2  # 占位: 替换为实际考官仓库
+          path: northstar_v3_stage2
+      - uses: actions/checkout@v4
+        with:
+          repository: northstar-v3/stage3  # 占位: 替换为实际考官仓库
+          path: northstar_v3_stage3
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install deps
+        run: pip install numpy scipy pyarrow
+      - name: Batch determinism
+        working-directory: northstar_v3_stage4
+        run: python ci/batch_determinism.py
+      - name: Upload evidence
+        uses: actions/upload-artifact@v4
+        with:
+          name: determinism-evidence
+          path: |
+            northstar_v3_stage4/out/batch_determinism.json
+            northstar_v3_stage4/out/batch_evidence/*.json

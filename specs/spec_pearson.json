@@ -1,0 +1,47 @@
+{
+  "name": "pearson_chi2",
+  "family": "pearson_chi2",
+  "description": "Pearson 卡方独立性检验: chi2 = sum((O-E)^2/E), E_ij = R_i*C_j/n, dof = (r-1)(c-1)",
+  "inputs": {
+    "type": "contingency_table",
+    "shape": "rxc",
+    "value": "nonneg_counts"
+  },
+  "outputs": {
+    "type": "pvalue",
+    "range": [0, 1]
+  },
+  "statistic": {
+    "name": "pearson_chi2",
+    "dof": "(r-1)*(c-1)"
+  },
+  "null_dist": {
+    "type": "multinomial_independence",
+    "cont": {"n": 500, "row_p": [0.3, 0.3, 0.4], "col_p": [0.2, 0.25, 0.3, 0.25]},
+    "disc": {"n": 30, "row_p": [0.5, 0.5], "col_p": [0.3333333333333333, 0.3333333333333333, 0.3333333333333333]}
+  },
+  "function": "chi2_pvalue",
+  "reference": {
+    "refs": ["ref_hand_chi2", "ref_scipy_chi2"],
+    "agree_tol": 1e-9,
+    "self_check": [
+      {
+        "name": "identity_2x2",
+        "input": {"type": "contingency_table", "table": [[1, 1], [1, 1]]},
+        "expected": 1.0
+      }
+    ],
+    "self_check_tol": 1e-9
+  },
+  "l1": {
+    "n_tables": 2000,
+    "points": [0.01, 0.05, 0.1],
+    "ks_slack": 0.02,
+    "cont_point_slack": 0.02,
+    "cont_mean_slack": 0.03,
+    "disc_point_slack": 0.02,
+    "disc_mean_max": 0.54,
+    "runs": 3,
+    "seed_base": 20260807
+  }
+}

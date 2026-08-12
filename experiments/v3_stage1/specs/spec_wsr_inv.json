@@ -1,0 +1,53 @@
+{
+  "name": "wilcoxon_signed_rank",
+  "family": "wilcoxon",
+  "description": "Wilcoxon 符号秩检验 (配对样本, 单侧+双侧入口函数集; 恒等式考卷规格, 北极星 v3 级 1)",
+  "inputs": {
+    "type": "two_samples",
+    "shape": "n+n",
+    "value": "real"
+  },
+  "outputs": {
+    "type": "pvalue",
+    "range": [0, 1]
+  },
+  "statistic": {
+    "name": "wilcoxon_signed_rank"
+  },
+  "null_dist": {
+    "type": "iid_two_samples",
+    "cont": {"distribution": "uniform", "lo": 0.0, "hi": 1.0, "n1": 200, "n2": 200},
+    "disc": {"distribution": "uniform", "lo": 0.0, "hi": 1.0, "n1": 10, "n2": 10}
+  },
+  "function": "two_sided_pvalue",
+  "functions": {
+    "less": "less_pvalue",
+    "greater": "greater_pvalue",
+    "two_sided": "two_sided_pvalue"
+  },
+  "invariants": [
+    {
+      "name": "direction_complement",
+      "pair": ["less", "greater"],
+      "swap_inputs": true,
+      "n_inputs": 500,
+      "tol": 1e-6,
+      "condition": "ties_fractional_w_cond",
+      "gen": "spec.null_dist.disc",
+      "n": 20
+    },
+    {
+      "name": "direction_complement",
+      "pair": ["less", "greater"],
+      "swap_inputs": true,
+      "n_inputs": 500,
+      "tol": 1e-6,
+      "condition": "cont_stdnormal",
+      "gen": "spec.null_dist.cont",
+      "n": 20
+    }
+  ],
+  "l1": {
+    "seed_base": 20260807
+  }
+}

@@ -1,0 +1,78 @@
+Business Source License 1.1
+
+License text copyright (c) 2017 MariaDB Corporation Ab, All Rights Reserved.
+"Business Source License" is a trademark of MariaDB Corporation Ab.
+
+-----------------------------------------------------------------------------
+
+Parameters
+
+Licensor:             huang871015
+
+Licensed Work:        northstar-exam
+                      The Licensed Work is (c) 2026 huang871015, and includes
+                      all files in this repository.
+
+Additional Use Grant: 非商业用途（个人学习、教学、评估、研究）。
+                      You may make use of the Licensed Work for non-commercial
+                      purposes, including personal learning, teaching,
+                      evaluation and research. 商业用途（含企业生产使用、
+                      对外提供产品或服务）需另行取得 Licensor 书面授权。
+
+Change Date:          2030-08-11
+
+Change License:       Apache License, Version 2.0
+
+For information about alternative licensing arrangements for the Licensed
+Work, please contact huang871015 via the repository owner.
+
+-----------------------------------------------------------------------------
+
+Terms
+
+The Licensor hereby grants you the right to copy, modify, create derivative
+works, redistribute, and make non-production use of the Licensed Work. The
+Licensor may make an Additional Use Grant, above, permitting limited
+production use.
+
+Effective on the Change Date, or the fourth anniversary of the first publicly
+available distribution of a version of the Licensed Work, whichever is
+earlier, the Licensed Work will be made available under the terms of the
+Change License, specified above.
+
+You may notify the Licensor at the contact email address provided in the
+License if you wish to receive a copy of the Licensed Work made available
+under the Change License, or if you have any other questions regarding the
+Licensed Work.
+
+For any use of the Licensed Work beyond the limitations granted by the above
+license, the Licensor may grant an additional license on such terms and
+conditions as the Licensor deems appropriate, provided that such grant
+requires a separate written agreement between you and the Licensor.
+
+Neither the name of the Licensor nor the names of any contributors to the
+Licensed Work may be used to endorse or promote products derived from this
+Software without specific prior written permission.
+
+This License is provided on an "AS IS" BASIS, WITHOUT WARRANTIES OF ANY
+KIND, either express or implied, including, without limitation, any
+warranties or conditions of TITLE, NON-INFRINGEMENT, MERCHANTABILITY, or
+FITNESS FOR A PARTICULAR PURPOSE. You are solely responsible for determining
+the appropriateness of using or redistributing the Licensed Work and assume
+any risks associated with Your exercise of permissions under this License.
+
+The Licensed Work is provided by the Licensor on an "AS IS" BASIS, WITHOUT
+WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied, including,
+without limitation, any warranties or conditions of TITLE,
+NON-INFRINGEMENT, MERCHANTABILITY, or FITNESS FOR A PARTICULAR PURPOSE.
+The Licensor has no obligation to provide support, maintenance, updates,
+or support for the Licensed Work, unless otherwise agreed in writing.
+In no event shall the Licensor be liable for any damages arising out of
+your use of the Licensed Work, whether in contract, tort, or otherwise,
+unless required by applicable law.
+
+-----------------------------------------------------------------------------
+
+官方考卷不随仓库分发 (Official exams are not distributed with this
+repository): 本仓库仅含公开演示考卷 (exams/exam_pearson_demo.json)。
+官方考卷为闭源交付物, 经授权送考, 不在此仓库内。
