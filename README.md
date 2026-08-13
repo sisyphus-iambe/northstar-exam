@@ -2,7 +2,7 @@
 
 Submit an AI-generated implementation, get a four-layer verdict (L1 calibration / L2 cross-reference / L3 coverage / L4 degenerate inputs). Correct → ACCEPT, wrong → REJECT. No LLM self-evaluation anywhere — the verdict is computed by deterministic programmatic checks against independent references.
 
-Northstar treats a statistical implementation like a candidate sitting an exam: you submit a `.py` implementation, the platform runs a four-layer exam and returns a per-layer verdict (L1 distribution / L2 cross-reference / L3 coverage / L4 degenerate inputs) together with a report card. It is especially sensitive to code that "looks right but computes wrong" — wrong degrees of freedom, wrong p-value formulas, and silent p=1.0 filling on degenerate inputs are exactly the bug classes it catches.
+Northstar treats a statistical implementation like a candidate sitting an exam: you submit a `.py` implementation, the platform runs a four-layer exam and returns a per-layer verdict (L1 distribution / L2 cross-reference / L3 coverage / L4 degenerate inputs) together with a report card. It is especially sensitive to code that "looks right but computes wrong" — wrong degrees of freedom, wrong p-value formulas, and silent p-value filling on degenerate inputs (on the classes where the reference itself fails honestly) are exactly the bug classes it catches.
 
 ## Quick start
 
@@ -59,7 +59,7 @@ def chi2_pvalue(observed):
 
 The four layers exist because these bug classes are real, common, and silent. All numbers below are measured in our internal acceptance evaluations.
 
-- **Silent p-value filling on degenerate tables (L4)** — even a plain scipy call can silently return p=1.0 on degenerate 1×5 tables; the exam flags this as hallucinated filling and rejects it. The call looks like a pass but tests nothing.
+- **Silent p-value filling on degenerate tables (L4)** — on the 7/9 malformed-input classes where the reference itself fails honestly (NaN/Inf/zero table/string/empty table — it raises or returns non-finite), a candidate that silently returns a finite p-value is flagged as hallucinated filling and rejected. The call looks like a pass but tests nothing. (The 2 remaining classes — single-row / single-column tables — are mathematically definable and the reference itself returns a finite p=1.0; there the candidate is not judged, only a `ref_dev` diagnostic is recorded.)
 - **Broken direction complementarity** — we had an LLM hand-write 60 statistical implementations (the prompt forced the normal approximation plus ties correction). Of the 54 that could be submitted for examination, 8 (14.8%) violated the direction-complementary identity — p_less(x, y) vs p_greater(y, x) — and spot checks confirmed every one was a real bug. Direction-flipped variants were REJECTED 492/500 times; correct implementations drew 0/500 false positives.
 - **"Computes right but lies" is the norm, not the edge case** — in a question-bank evolution evaluation (22 human templates → 100 mutated questions × 3 generations), 17 fresh LLM-written chi-square implementations were graded by per-table gold truth: 9 were genuinely wrong, and of the 8 that computed correctly, 7 (87.5%) silently returned finite p-values on malformed inputs instead of failing honestly. Only 1 of 17 passed all four layers (5.9% pass rate). Northstar is a strict examiner of LLM output.
 - **Dirty samples in robot demonstration data** — on 402 real Unitree G1 demonstration trajectories we injected three classes of dirty samples (NaN / out-of-range values / jumps): 60/60 detected, 0/30 false positives.
@@ -78,25 +78,25 @@ spec (spec JSON) → compile (exam JSON) → submit (candidate .py) → four-lay
   - **L1 distribution calibration** — H0 simulation sampling: p-values must be uniform on the continuous region and conservative on the discrete region; NaN scores nothing.
   - **L2 cross-reference** — cross-validation against two independent reference implementations (known-answer check + reference agreement); the candidate must match the references to 1e-6, otherwise FAIL.
   - **L3 coverage** — boundary generalization: 5 shapes × 76 inputs (tiny samples / large samples / strongly skewed / zero cells / mixed).
-  - **L4 degenerate inputs** — 9 classes of malformed inputs (NaN/Inf/zero table/single row/single column/string/empty table): the candidate must fail honestly (raise an exception or return a non-finite value); a silently filled p-value is hallucinated filling = FAIL.
+  - **L4 degenerate inputs** — 9 classes of malformed inputs (NaN/Inf/zero table/single row/single column/string/empty table): on classes where the reference itself fails honestly (raises or returns non-finite — 7 of the 9), the candidate must fail honestly too; a silently filled finite p-value there is hallucinated filling = FAIL. On the 2 classes where the reference itself returns a finite value (single-row/single-column), the candidate is not judged (ref_dev diagnostic only).
 - **Extensible examiner registry** — `spsl/registry.py` dispatches by `constraint_type`; examiner families register their own (compile_fn, run_fn) and INPUT_TYPES. In this repo today:
   - `statistical` — the four-layer exam above (pearson_chi2, wilcoxon families).
   - `conclusion_anchor` — anchors a capability conclusion on real data: the candidate estimates coverage of a stated conclusion, and the examiner verifies it against the underlying dataset (generator-based: AR(1) / normal, or self-provided parquet data).
   - `demo_data` — dirty-sample detection on robot demonstration data (specs/spec_demo_data.json; the dataset itself is not bundled — point `root` at your own data).
   - `state_estimator` — state-estimation accuracy against a reference implementation on simulated data.
-  - `invariant` (v3 stage 1) — identity-based, reference-free judgement: checks that a candidate's functions satisfy mathematical identities (e.g. direction complementarity p_less(x,y) vs p_greater(y,x)) with zero references, catching flip-style bugs at 500-sample resolution. Exams live in `experiments/v3_stage1/exams/`.
+  - `invariant` (v3 stage 1) — identity-based, reference-free judgement: checks that a candidate's functions satisfy mathematical identities (e.g. direction complementarity p_less(x,y) vs p_greater(y,x)) with zero references, catching flip-style bugs at 500-sample resolution. Exams live in `experiments/v3_stage1/exams/` (also mirrored in `exams/`; the main `spsl.run` pipeline dispatches them on `layer=INV`).
 
 ## Everything is open
 
-This repository ships the **full exam-setting kit**: the four-layer engine, the spec schema, the examiner registry, the compiled exams for both statistical families (`exams/`, four-layer and L1-only), the invariant exams and their knowledge base, the question-bank evolution pipeline (`experiments/exam_evolution/`), the self-proof calibration experiment (`calibrator/`), and the CI determinism checks. No closed exams — compile, inspect, verify, and re-derive everything yourself.
+This repository ships the **full exam-setting kit**: the four-layer engine, the spec schema, the examiner registry, the compiled exams for both statistical families (`exams/`, four-layer and L1-only), the invariant exams and their knowledge base, the question-bank evolution pipeline (`experiments/exam_evolution/`), the self-proof calibration experiment (`calibrator/`), and the local determinism checks (`ci/batch_determinism.py`). No closed exams — compile, inspect, verify, and re-derive everything yourself.
 
-Every exam JSON is tamper-evident: `content_md5` is recomputed on load against the normalized content, and `spec_md5` against the embedded spec. You can recompile any exam from its spec with `python3 -m spsl.compile_l1/l2/l3/l4` and diff the fingerprints.
+Every exam JSON is tamper-evident: `content_md5` is recomputed on load against the normalized content, and `spec_md5` against the embedded spec. You can recompile any exam from its spec with `python3 -m spsl.compile_l1/l2/l3/l4` (invariant exams: `python3 -m spsl.compile_inv`) and diff the fingerprints.
 
 ## Tooling
 
 - **Validator QC** — `python3 -m verifytool my_chi2.py` runs the full four-layer pipeline with per-run rejection counts and produces an HTML report card plus a JSON verdict with payload_md5/self_md5 double fingerprints. `python3 -m verifytool templates list` shows the 22-template library (9 exam templates + 5 error controls + 8 real-world demos).
 - **Invariant examiner** — `python3 -m spsl.run_inv experiments/v3_stage1/exams/exam_ranksum_inv.json candidates/ranksum_correct.py` runs the reference-free identity exam (candidates: `ranksum_correct.py` → PASS, `ranksum_flip.py` → REJECT).
-- **MCP gateway** — `mcp/northstar_mcp.py` exposes the exam pipeline as an MCP stdio server (specs dir + examiners root): submit candidates, run exams, fetch verdicts.
+- **MCP gateway** — `mcp/northstar_mcp.py` exposes the exam pipeline as an MCP stdio server: submit candidates, run exams (statistical four-layer via spec name, conclusion_anchor / demo_data / state_estimator via spec, invariant via `exam_wsr_inv` / `exam_ranksum_inv`), fetch verdicts. Requires the `mcp` package (`pip install "mcp==1.29.0"`) plus numpy/scipy. Dispatch delegates to `spsl.run` subprocesses — the gateway contains no judgement logic.
 - **Self-proof** — `calibrator/run_experiment.py` re-derives the calibration-layer acceptance numbers (reference agreement, generator dual-path, L1 uniformity, sensitivity ≥ 0.95, false-kill ≤ 5%) from first principles.
 
 ## Capabilities
@@ -115,5 +115,5 @@ This repository is licensed under **BUSL 1.1** (Business Source License 1.1): th
 ## Environment
 
 - Python 3.14.6 + NumPy 2.4.4 + SciPy 1.18.0 (all exams in this repo were compiled and validated in this environment).
-- All verdict fields are deterministic (except elapsed_seconds and the derived payload_md5 / self_md5): re-running in the same environment gives byte-identical output; for other environments, rely on this repo's compiled artifacts or recompile yourself (CI determinism checks: `ci/determinism.yml`, `tests/`, 27 tests).
+- All verdict fields are deterministic (except elapsed_seconds and the derived payload_md5 / self_md5): re-running in the same environment gives byte-identical output; for other environments, rely on this repo's compiled artifacts or recompile yourself (local determinism checks: `ci/batch_determinism.py` — 5 exam pairs byte-identical on re-run; `tests/`, 27 tests).
 - The `demo_data` examiner requires a parquet dataset (AppleToPlate-style trajectories) — set `root` in `specs/spec_demo_data.json` to your own data; the other examiners need no external data.

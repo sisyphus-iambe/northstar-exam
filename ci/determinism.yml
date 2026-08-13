@@ -1,8 +1,8 @@
 # 北极星 v3 阶段 4 — 级 4 形态 CI 示例 (GitHub Actions)
 #
-# 触发: push / pull_request -> 批量确定性检查 (两遍运行逐字节 cmp + md5).
-# 注意: 本 workflow 示例未在真实 GitHub runner 上验证 (本机无 runner);
-#       本地等价命令: /tmp/g2venv/bin/python ci/batch_determinism.py
+# 废弃/未启用 (DEPRECATED): 仓库无 .github/ 目录, 本文件不会被任何 CI 执行.
+# 它引用不存在的占位仓库 (northstar-v3/stage2|3), 不可直接使用.
+# 实际可跑的确定性检查 = ci/batch_determinism.py (本地运行, 5 对逐字节一致).
 # 依赖: 考官 (stage2/3) 需与工作区同级, 见 README §使用说明.
 name: northstar-v3-stage4-determinism
 

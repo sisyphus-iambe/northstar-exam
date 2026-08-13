@@ -1,7 +1,7 @@
 {
   "name": "wilcoxon_signed_rank",
   "family": "wilcoxon",
-  "description": "Wilcoxon 符号秩检验 (配对样本, 单侧+双侧入口函数集; 恒等式考卷规格, 北极星 v3 级 1)",
+  "description": "Wilcoxon signed-rank test (paired samples; one- and two-sided entry functions; invariant exam spec, Northstar v3 stage 1)",
   "inputs": {
     "type": "two_samples",
     "shape": "n+n",

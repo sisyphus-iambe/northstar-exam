@@ -1,23 +1,53 @@
 {
   "schema": 1,
   "candidates": {
-    "chain_listwise_correct": {
-      "name": "chain_listwise_correct",
+    "handwritten_good": {
+      "name": "handwritten_good",
       "language": "py",
-      "family": "chain",
-      "source_rel": "mcp/candidates/chain_listwise_correct.py"
+      "family": "pearson_chi2",
+      "source_rel": "verifytool/programs_real/handwritten_good.py"
     },
-    "chain_constant_wrong": {
-      "name": "chain_constant_wrong",
+    "nan_exam_tables": {
+      "name": "nan_exam_tables",
       "language": "py",
-      "family": "chain",
-      "source_rel": "mcp/candidates/chain_constant_wrong.py"
+      "family": "pearson_chi2",
+      "source_rel": "candidates/nan_exam_tables.py"
     },
-    "chain_constant_wrong_v2": {
-      "name": "chain_constant_wrong_v2",
+    "wilcoxon_ranksums": {
+      "name": "wilcoxon_ranksums",
       "language": "py",
-      "family": "chain",
-      "source_rel": "mcp/candidates/chain_constant_wrong_v2/chain_constant_wrong_v2.py"
+      "family": "wilcoxon",
+      "source_rel": "candidates/wilcoxon_ranksums.py"
+    },
+    "wsr_correct": {
+      "name": "wsr_correct",
+      "language": "py",
+      "family": "wilcoxon",
+      "source_rel": "candidates/wsr_correct.py"
+    },
+    "wsr_flip": {
+      "name": "wsr_flip",
+      "language": "py",
+      "family": "wilcoxon",
+      "source_rel": "candidates/wsr_flip.py"
+    },
+    "wsr_atomic": {
+      "name": "wsr_atomic",
+      "language": "py",
+      "family": "wilcoxon",
+      "source_rel": "candidates/wsr_atomic.py"
+    },
+    "ranksum_correct": {
+      "name": "ranksum_correct",
+      "language": "py",
+      "family": "ranksum",
+      "source_rel": "candidates/ranksum_correct.py"
+    },
+    "ranksum_flip": {
+      "name": "ranksum_flip",
+      "language": "py",
+      "family": "ranksum",
+      "source_rel": "candidates/ranksum_flip.py"
     }
   }
 }

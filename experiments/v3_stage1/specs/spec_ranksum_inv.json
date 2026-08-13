@@ -1,7 +1,7 @@
 {
   "name": "wilcoxon_rank_sum_inv",
   "family": "ranksum",
-  "description": "Wilcoxon 两样本秩和检验 (Mann-Whitney, 单侧+双侧入口函数集; 恒等式考卷规格, 北极星 v3 级 1 D4)",
+  "description": "Wilcoxon two-sample rank-sum test (Mann-Whitney; one- and two-sided entry functions; invariant exam spec, Northstar v3 stage 1 D4)",
   "inputs": {
     "type": "two_samples",
     "shape": "n+n",
