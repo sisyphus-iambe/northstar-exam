@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Northstar — trust checkpoint for AI-generated artifacts</title>
+<meta name="description" content="Exam hall for AI statistical code: four-layer verdicts (calibration / cross-reference / boundary coverage / degenerate inputs). No LLM self-evaluation — deterministic programmatic checks.">
+<style>
+  :root {
+    --bg: #0d1117; --panel: #161b22; --fg: #e6edf3;
+    --mut: #8b949e; --acc: #58a6ff; --green: #3fb950; --red: #f85149;
+    --border: #30363d; --mono: ui-monospace, "SF Mono", Menlo, monospace;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: var(--bg); color: var(--fg); font: 16px/1.65 -apple-system, "Helvetica Neue", Arial, sans-serif; }
+  .wrap { max-width: 880px; margin: 0 auto; padding: 56px 24px 96px; }
+  header { border-bottom: 1px solid var(--border); padding-bottom: 28px; margin-bottom: 40px; }
+  .crumb { font-family: var(--mono); font-size: 13px; color: var(--mut); letter-spacing: .04em; }
+  h1 { font-size: 44px; font-weight: 650; letter-spacing: -.02em; margin: 10px 0 6px; }
+  .sub { color: var(--acc); font-size: 18px; }
+  p.tag { color: var(--mut); max-width: 66ch; margin-top: 14px; }
+  h2 { font-size: 20px; margin: 44px 0 14px; font-weight: 600; }
+  h2::before { content: "// "; color: var(--mut); font-family: var(--mono); }
+  table { width: 100%; border-collapse: collapse; font-size: 14px; }
+  th, td { border: 1px solid var(--border); padding: 8px 12px; text-align: left; vertical-align: top; }
+  th { background: var(--panel); font-weight: 600; }
+  .layer { font-family: var(--mono); font-size: 13px; color: var(--acc); white-space: nowrap; }
+  ul { padding-left: 22px; color: var(--fg); }
+  li { margin: 6px 0; }
+  .num { font-family: var(--mono); color: var(--green); }
+  .note { color: var(--mut); font-size: 13px; margin-top: 8px; }
+  pre { background: var(--panel); border: 1px solid var(--border); border-radius: 6px; padding: 16px 18px; overflow-x: auto; font-family: var(--mono); font-size: 13.5px; line-height: 1.6; }
+  a { color: var(--acc); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+  footer { margin-top: 64px; border-top: 1px solid var(--border); padding-top: 18px; color: var(--mut); font-size: 13px; font-family: var(--mono); }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <div class="crumb">SISYPHUS-IAMBE / NORTHSTAR-EXAM</div>
+  <h1>Northstar</h1>
+  <div class="sub">A trust checkpoint for AI-generated artifacts.</div>
+  <p class="tag">Submit an AI-generated statistical implementation, get a four-layer verdict:
+  calibration / cross-reference / boundary coverage / degenerate inputs.
+  Correct &rarr; ACCEPT, wrong &rarr; REJECT. No LLM self-evaluation anywhere &mdash;
+  verdicts come from deterministic programmatic checks against independent references.</p>
+</header>
+
+<h2>The four-layer exam</h2>
+<table>
+  <tr><th style="width:200px">Layer</th><th>What it checks</th></tr>
+  <tr><td class="layer">L1 &middot; calibration</td><td>H0 simulation sampling: p-values uniform on the continuous region, conservative on the discrete region. NaN scores nothing.</td></tr>
+  <tr><td class="layer">L2 &middot; cross-reference</td><td>Candidate p-values must match two independent reference implementations to 1e-6 (references self-check known answers + agree with each other first, or the run aborts honestly).</td></tr>
+  <tr><td class="layer">L3 &middot; coverage</td><td>Boundary generalization: 5 shapes &times; 76 inputs &mdash; tiny samples, large samples, strongly skewed margins, zero cells, mixed medium samples.</td></tr>
+  <tr><td class="layer">L4 &middot; degenerate inputs</td><td>9 malformed-input classes (NaN / Inf / zero table / single row / single column / string / empty). On the 7 classes where the reference itself fails honestly, a candidate that silently returns a finite p-value is hallucinated filling = FAIL.</td></tr>
+</table>
+
+<h2>Measured on real LLM output</h2>
+<p class="note">Internal acceptance evaluations &mdash; the exam-setting kit is open so every number below is re-derivable from this repository.</p>
+<ul>
+  <li><span class="num">14.8%</span> of 54 hand-written LLM statistical implementations violated the direction-complementary identity (p_less(x,y) vs p_greater(y,x)); spot checks confirmed every one was a real bug.</li>
+  <li><span class="num">492/500</span> direction-flip variants rejected by the invariant examiner; <span class="num">0/500</span> false positives on correct implementations.</li>
+  <li><span class="num">5.9%</span> pass rate: of 17 fresh LLM-written chi-square implementations, only 1 passed all four layers. "Computes right but lies" is the norm, not the edge case.</li>
+  <li><span class="num">60/60</span> dirty samples detected on 402 real robot demonstration trajectories (NaN / out-of-range / jumps), <span class="num">0/30</span> false positives.</li>
+  <li><span class="num">0/20</span> type-confused samples caught by a popular open-source robot-data tooling stack &mdash; outright-corrupted data treated as normal; it crashed on 20/20. These bug classes ship in the wild.</li>
+</ul>
+
+<h2>Quick start</h2>
+<pre>pip install numpy scipy
+# my_chi2.py: contract chi2_pvalue(observed) -&gt; float
+python3 -m spsl.run exams/exam_pearson_demo.json my_chi2.py --out verdict.json
+#   L1: PASS   L2: PASS   L3: PASS   L4: PASS   Verdict: ACCEPT</pre>
+
+<h2>Everything is open</h2>
+<ul>
+  <li>Compiled exams (four-layer + L1-only, pearson and wilcoxon families) in <code>exams/</code> &mdash; tamper-evident via spec_md5 / content_md5.</li>
+  <li>Recompile any exam from its spec and diff the fingerprints (<code>spsl.compile_l1/l2/l3/l4</code>, <code>compile_inv</code>).</li>
+  <li>Invariant exams: reference-free identity checks at 500-sample resolution.</li>
+  <li>MCP gateway: run exams as an MCP stdio server (statistical / conclusion_anchor / demo_data / state_estimator / invariant).</li>
+  <li>Self-proof: <code>calibrator/run_experiment.py</code> re-derives the acceptance numbers from first principles (sensitivity 1.000, false-kill 0.020).</li>
+  <li>Determinism: same environment &rarr; byte-identical verdicts; 5 exam pairs verified byte-identical (<code>ci/batch_determinism.py</code>, 27 tests).</li>
+</ul>
+
+<h2>Repository</h2>
+<ul>
+  <li><a href="https://github.com/sisyphus-iambe/northstar-exam">github.com/sisyphus-iambe/northstar-exam</a></li>
+  <li><a href="https://github.com/sisyphus-iambe/northstar-exam/releases/tag/v0.1.0">v0.1.0 release</a></li>
+</ul>
+
+<footer>
+northstar-exam &middot; Python 3.14.6 / NumPy 2.4.4 / SciPy 1.18.0 &middot;
+BUSL 1.1 (free for personal/research use; commercial use requires a license) &middot; 2026-08-13
+</footer>
+
+</div>
+</body>
+</html>
