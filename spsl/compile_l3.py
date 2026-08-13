@@ -178,10 +178,12 @@ def _wilcoxon_l3_inputs():
 # ---------------------------------------------------------------------------
 
 _PROTOCOL = (
-    "与 L2 相同判定 (双参照自检 1e-9 + REF_ABORT; 候选 vs 两参照 1e-6), "
-    "考卷侧重边界泛化: 5 形态 × 76 输入 (v1 L3 = 5 形态 76 表, "
-    "calibrator/l3.py:13-91 同款): 极小样本 / 大样本 / 强偏斜边缘 (两样本: "
-    "强不均衡) / 零单元格 (两样本: 边界手设) / 中样本混合. 全部合法输入.")
+    "Same verdict as L2 (dual-reference self-check 1e-9 + REF_ABORT; "
+    "candidate vs both references 1e-6), exam emphasizes boundary "
+    "generalization: 5 shapes x 76 inputs (v1 L3 = 5 shapes 76 tables, "
+    "calibrator/l3.py:13-91 same): tiny samples / large samples / strongly "
+    "skewed margins (two-sample: strongly imbalanced) / zero cells "
+    "(two-sample: hand-set boundary) / mixed medium samples. All legal inputs.")
 
 
 def build_exam(spec: dict) -> dict:

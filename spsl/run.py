@@ -11,7 +11,7 @@ statistical 四层判定与 v1 产品代码同构:
   L2  双参照对拍: 参照自检 (已知答案 ± self_check_tol + 双参照一致 agree_tol=1e-9)
       -> REF_ABORT; 候选 vs 两参照 tol=1e-6
   L3  边界泛化: 与 L2 同判定, 5 形态 × 76 输入 (v1 同构)
-  L4  畸形输入诚实失败: 9 类, 返回有限 p 值 = 幻觉填补 = FAIL
+  L4  畸形输入诚实失败: 9 类, 参照诚实失败类上返回有限 p = 幻觉填补 = FAIL
 层判定阈值: 拒绝占比 <=10% = PASS, >=90% = REJECT,
 其余 MIXED; 总判定同阈值 -> ACCEPT/REJECT/MIXED.
 候选在合法考卷输入上抛异常 (L2/L3 对拍表) -> 该 run 全层记拒 (v1 crash 语义);
@@ -216,8 +216,14 @@ def run_pair_layer(func, sec: dict) -> dict:
 # L4 畸形输入诚实失败 (v1 同款)
 # ---------------------------------------------------------------------------
 
-def run_l4_exam(func, sec: dict) -> dict:
-    """L4 section -> {verdict: bool, diag: {n_inputs, n_fail, per_input}}."""
+def run_l4_exam(func, sec: dict, refs: list) -> dict:
+    """L4 section -> {verdict: bool, diag: {n_inputs, n_fail, per_input}}.
+
+    判据与参照行为对齐: 对每个输入类, 参照自身诚实失败 (任一参照抛异常或
+    返回非有限/不在 [0,1]) -> ref_finite=False (该类 = 诚实失败类), 此时
+    候选返回有限 p = 幻觉填补 = FAIL; 全部参照都返回有限 -> ref_finite=True
+    (该类参照可定义), 候选返回有限不判, 仅记录 ref_dev 供诊断.
+    """
     results = []
     for item in sec["inputs"]:
         if item["type"] == "two_samples":
@@ -225,25 +231,40 @@ def run_l4_exam(func, sec: dict) -> dict:
                            dtype=object if item["dtype"] == "object" else float)
             y = np.asarray([_decode_cell(v) for v in item["y"]],
                            dtype=object if item["dtype"] == "object" else float)
-            try:
-                p = float(func(x, y))
-            except Exception as exc:   # 显式失败 = 合格
-                results.append({"name": item["name"],
-                                "returned": f"EXC {type(exc).__name__}",
-                                "finite": False})
-                continue
+            ref_input = {"x": x, "y": y}
         else:
             t, _ = decode_l4_input(item)
+            ref_input = {"table": t}
+        # 参照行为探测 (独立于候选): 全部参照返回有限 -> ref_finite=True
+        ref_finite, ref_ps = True, []
+        for ref in refs:
             try:
-                p = float(func(t))
-            except Exception as exc:
-                results.append({"name": item["name"],
-                                "returned": f"EXC {type(exc).__name__}",
-                                "finite": False})
-                continue
+                rp = float(ref(ref_input))
+            except Exception:   # 参照抛异常 = 诚实失败
+                ref_finite = False
+                break
+            if not (math.isfinite(rp) and 0.0 <= rp <= 1.0):   # 参照非有限 = 诚实失败
+                ref_finite = False
+                break
+            ref_ps.append(rp)
+        # 候选调用 (异常 = 诚实失败 = 合格)
+        try:
+            p = float(func(x, y)) if item["type"] == "two_samples" else float(func(t))
+        except Exception as exc:
+            results.append({"name": item["name"],
+                            "returned": f"EXC {type(exc).__name__}",
+                            "finite": False,
+                            "ref_finite": ref_finite,
+                            "hallucinated": False})
+            continue
         finite = math.isfinite(p) and 0.0 <= p <= 1.0
-        results.append({"name": item["name"], "returned": p, "finite": finite})
-    n_fail = sum(1 for r in results if r["finite"])
+        entry = {"name": item["name"], "returned": p, "finite": finite,
+                 "ref_finite": ref_finite,
+                 "hallucinated": bool((not ref_finite) and finite)}
+        if finite and ref_finite:
+            entry["ref_dev"] = max(abs(p - rp) for rp in ref_ps)   # 诊断, 不进判定
+        results.append(entry)
+    n_fail = sum(1 for r in results if r["hallucinated"])
     return {
         "verdict": bool(n_fail == 0),
         "diag": {"n_inputs": len(results), "n_fail": n_fail,
@@ -263,7 +284,8 @@ def run_four_layers(func, exam: dict) -> dict:
     try:
         l2 = run_pair_layer(func, exam["l2"])
         l3 = run_pair_layer(func, exam["l3"])
-        l4 = run_l4_exam(func, exam["l4"])
+        l4 = run_l4_exam(func, exam["l4"],
+                         [get_ref(n) for n in exam["l2"]["refs"]])
     except Exception as exc:
         error = f"{type(exc).__name__}: {exc}"
         per_run = [{"seed": s, "crash": True, "error": error,
@@ -398,9 +420,14 @@ def _run_statistical(args) -> int:
         print(f"  candidate raised on a valid exam input: {d['error']}")
     else:
         l1d, l2d, l3d, l4d = d["L1_diag"], d["L2_diag"], d["L3_diag"], d["L4_diag"]
-        print(f"  L1 diag: cont_ks_D={l1d['cont_ks_D']:.6f} "
-              f"cont_mean={l1d['cont_mean']:.6f} "
-              f"disc_mean={l1d['disc_mean']:.6f}")
+        if l1d.get("cont_ks_D") is not None:   # L1 计分区有 KS 统计量 (l1.py check_zone)
+            print(f"  L1 diag: cont_ks_D={l1d['cont_ks_D']:.6f} "
+                  f"cont_mean={l1d['cont_mean']:.6f} "
+                  f"disc_mean={l1d['disc_mean']:.6f}")
+        else:
+            l1_note = (l1d.get('cont_note') or l1d.get('disc_note')
+                       or 'L1 zone not scored')
+            print(f"  L1 diag: {l1_note}")
         if "cont_note" in l1d:
             print(f"  L1: {l1d['cont_note']}")
         if "disc_note" in l1d:
@@ -442,6 +469,18 @@ def main(argv=None) -> int:
     args = parser.parse_args(argv)
 
     raw = json.loads(Path(args.exam).read_text(encoding="utf-8"))
+    if raw.get("layer") == "INV":
+        # 恒等式考卷 (compile_inv 产物): 委托 run_inv 判定 (恒等式层并入总判定)
+        if args.validator is None:
+            print("[spsl] load failed: the invariant family requires a "
+                  "candidate validator path", file=sys.stderr)
+            return 2
+        from spsl.run_inv import main as inv_main
+
+        argv = [args.exam, args.validator]
+        if args.out:
+            argv += ["--out", args.out]
+        return inv_main(argv)
     embedded = raw.get("spec") if isinstance(raw.get("spec"), dict) else None
     ct = (embedded or raw).get("constraint_type", DEFAULT_CONSTRAINT_TYPE)
     if ct != DEFAULT_CONSTRAINT_TYPE:

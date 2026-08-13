@@ -103,7 +103,10 @@ class NorthstarGate:
         entry = self.registry["candidates"].get(name)
         if entry is None:
             raise ValueError(f"candidate not registered: {name!r} (call submit_candidate first)")
-        return (WORKSPACE / entry["source_rel"]).resolve()
+        resolved = (WORKSPACE / entry["source_rel"]).resolve()
+        if not resolved.is_relative_to(WORKSPACE):
+            raise ValueError(f"candidate source escapes the workspace: {resolved}")
+        return resolved
 
     # ---- 规格 ----
 
@@ -112,6 +115,8 @@ class NorthstarGate:
         if p.suffix != ".json":
             p = p.with_suffix(".json")
         spec_path = (self.specs_dir / p).resolve()
+        if not spec_path.is_relative_to(self.specs_dir):
+            raise ValueError(f"spec path escapes the specs dir: {spec_path}")
         if not spec_path.is_file():
             raise ValueError(f"spec not found: {spec_path}")
         return json.loads(spec_path.read_text(encoding="utf-8"))
@@ -127,8 +132,11 @@ class NorthstarGate:
                 f"规格 {spec_name} 的 family={family!r} 不在支持集 {FAMILIES}; "
                 f"inv 排除理由见 README §能力边界")
 
-        out_path = self.verdicts_dir / f"{spec_name}__{candidate_name}.json" \
-            if candidate_name else self.verdicts_dir / f"{spec_name}.json"
+        out_path = (self.verdicts_dir / f"{spec_name}__{candidate_name}.json"
+                    if candidate_name else self.verdicts_dir / f"{spec_name}.json")
+        out_path = out_path.resolve()
+        if not out_path.is_relative_to(self.verdicts_dir):
+            raise ValueError(f"output path escapes the verdicts dir: {out_path}")
         stage, script = EXAMINERS[family]
         cmd = [sys.executable, str(self.examiners_root / stage / script),
                str((self.specs_dir / (spec_name if spec_name.endswith(".json")
@@ -155,6 +163,9 @@ class NorthstarGate:
             p = self.verdicts_dir / f"{rid}.json"
         else:
             raise ValueError("get_verdict requires run_id or (spec_name + candidate_name)")
+        p = p.resolve()
+        if not p.is_relative_to(self.verdicts_dir):
+            raise ValueError(f"verdict path escapes the verdicts dir: {p}")
         if not p.is_file():
             raise ValueError(f"no verdict result: {p} (run_exam first)")
         return {"run_id": p.stem, "verdict_file": f"{VERDICTS_REL}/{p.name}",

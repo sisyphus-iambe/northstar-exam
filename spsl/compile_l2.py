@@ -123,12 +123,15 @@ def _wilcoxon_l2_inputs():
 # ---------------------------------------------------------------------------
 
 _PROTOCOL = (
-    "双参照: 规格 reference.refs 登记的两个独立实现 (spsl.golden 注册表). "
-    "参照自检: 已知答案核对 (±self_check_tol) + 双参照在全部考卷一致到 agree_tol "
-    "(1e-9, v1 REF_AGREE_TOL = calibrator/reference.py:118); 任一不过 -> "
-    "REF_ABORT (参照层不可信, 中止, 如实报告; v1 calibrator/l2.py:64-71 同款). "
-    "对拍: 候选 p 值与两参照都一致到 1e-6 (v1 L2_TOL, calibrator/l2.py:11), "
-    "否则 FAIL. 考卷全部为合法输入 (计数表边缘全 > 0; 两样本 n1/n2 >= 2 有限值).")
+    "Dual reference: two independent implementations registered in spec "
+    "reference.refs (spsl.golden registry). Reference self-check: known-answer "
+    "check (±self_check_tol) + both references agree on all exam inputs to "
+    "agree_tol (1e-9, v1 REF_AGREE_TOL = calibrator/reference.py:118); any "
+    "failure -> REF_ABORT (reference layer untrusted, abort and report "
+    "honestly; v1 calibrator/l2.py:64-71 same). Pairwise: candidate p must "
+    "match both references to 1e-6 (v1 L2_TOL, calibrator/l2.py:11), else "
+    "FAIL. All exam inputs are legal (contingency margins all > 0; "
+    "two-sample n1/n2 >= 2 finite).")
 
 
 def build_exam(spec: dict) -> dict:

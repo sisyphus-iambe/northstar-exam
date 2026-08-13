@@ -57532,7 +57532,7 @@
         ]
       }
     ],
-    "protocol": "Deterministic construction of 9 classes of malformed/missing inputs (v1 calibrator/l4.py:31-64 same protocol): pass = candidate either returns non-finite (NaN/inf) or raises (explicit failure) on each class; returning a finite float (0<=p<=1) = hallucinated imputation = FAIL. Background: POPPER lesson migrated - a validator facing missing/malformed inputs must fail honestly, never silently patch and emit a plausible p-value (l4.py:1-21 same)."
+    "protocol": "9 classes; on classes where the reference itself fails (exception/non-finite), returning a finite p-value = hallucination filling = FAIL; classes where the reference returns a finite value are not judged (diagnostic ref_dev only)."
   },
-  "content_md5": "c8a542ada902f3833146d227ef058959"
+  "content_md5": "c4b46ace8e794b0d8331b08ee0070656"
 }

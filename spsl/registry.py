@@ -17,6 +17,7 @@ DEFAULT_CONSTRAINT_TYPE = "statistical"
 _EXAMINERS = {
     "demo_data": ("spsl.examiners.demo_data", ()),
     "state_estimator": ("spsl.examiners.state_estimator", ()),
+    "conclusion_anchor": ("spsl.examiners.conclusion_anchor", ()),
 }
 
 
@@ -50,10 +51,15 @@ def _run_state_estimator(spec: dict, validator_path, out_path):
     return _load("state_estimator").run_spec(spec, validator_path, out_path)
 
 
+def _run_conclusion_anchor(spec: dict, validator_path, out_path):
+    return _load("conclusion_anchor").run_spec(spec, validator_path, out_path)
+
+
 EXAMINER_REGISTRY = {
     DEFAULT_CONSTRAINT_TYPE: (_compile_statistical, _run_statistical),
     "demo_data": (_compile_identity, _run_demo_data),
     "state_estimator": (_compile_identity, _run_state_estimator),
+    "conclusion_anchor": (_compile_identity, _run_conclusion_anchor),
 }
 
 

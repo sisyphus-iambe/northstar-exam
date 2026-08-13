@@ -134,11 +134,9 @@ def _wilcoxon_l4_inputs():
 # ---------------------------------------------------------------------------
 
 _PROTOCOL = (
-    "确定性构造 9 类畸形/缺失输入 (v1 calibrator/l4.py:31-64 同款协议): "
-    "合格 = 每类下候选要么返回非有限值 (NaN/inf), 要么抛异常 (显式失败); "
-    "返回有限 float (0<=p<=1) = 幻觉填补 = FAIL. "
-    "背景: POPPER 教训迁移 —— 验证器面对缺失/畸形输入必须诚实失败, "
-    "禁止静默修补后给出看似合理的 p 值 (l4.py:1-21 同款).")
+    "9 classes; on classes where the reference itself fails (exception/non-finite), "
+    "returning a finite p-value = hallucination filling = FAIL; classes where the "
+    "reference returns a finite value are not judged (diagnostic ref_dev only).")
 
 
 def build_exam(spec: dict) -> dict:

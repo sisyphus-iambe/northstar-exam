@@ -62,11 +62,12 @@ def build_exam(spec: dict) -> dict:
             "thresholds": thresholds,
             "seeds": [l1["seed_base"] + i for i in range(l1["runs"])],
             "protocol": (
-                "H0 重抽: 计数表重抽到边缘全 > 0 (calibrator/l1.py:43-48); "
-                "两样本 = 连续分布独立抽样. "
-                "NaN/非有限 p 值不计入合格 -> 本区本 seed 不合格 (方案 D1; "
-                "v1 同: calibrator/l1.py:66-82 cont_finite/disc_finite). "
-                "判定: 拒绝计数占比 <=10% = PASS, >=90% = REJECT, 其余 MIXED "
+                "H0 resampling: contingency tables resampled until all margins "
+                "> 0 (calibrator/l1.py:43-48); two-sample = independent draws "
+                "from continuous distributions. NaN/non-finite p-values do not "
+                "count as passing -> this cell/seed fails (design D1; v1 same: "
+                "calibrator/l1.py:66-82 cont_finite/disc_finite). Verdict: "
+                "reject fraction <=10% = PASS, >=90% = REJECT, else MIXED "
                 "(run_verify.py:36-37/58-64)."),
         },
     }

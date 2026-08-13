@@ -1,0 +1,115 @@
+{
+  "tool": "spsl",
+  "version": "0.2.0",
+  "layer": "INV",
+  "name": "wilcoxon_rank_sum_inv",
+  "family": "ranksum",
+  "spec": {
+    "name": "wilcoxon_rank_sum_inv",
+    "family": "ranksum",
+    "description": "Wilcoxon two-sample rank-sum test (Mann-Whitney; one- and two-sided entry functions; invariant exam spec, Northstar v3 stage 1 D4)",
+    "inputs": {
+      "type": "two_samples",
+      "shape": "n+n",
+      "value": "real"
+    },
+    "outputs": {
+      "type": "pvalue",
+      "range": [
+        0,
+        1
+      ]
+    },
+    "statistic": {
+      "name": "wilcoxon_rank_sum"
+    },
+    "null_dist": {
+      "type": "iid_two_samples",
+      "cont": {
+        "distribution": "uniform",
+        "lo": 0.0,
+        "hi": 1.0,
+        "n1": 20,
+        "n2": 20
+      },
+      "disc": {
+        "distribution": "uniform",
+        "lo": 0.0,
+        "hi": 1.0,
+        "n1": 20,
+        "n2": 20
+      }
+    },
+    "function": "two_sided_pvalue",
+    "functions": {
+      "less": "less_pvalue",
+      "greater": "greater_pvalue",
+      "two_sided": "two_sided_pvalue"
+    },
+    "invariants": [
+      {
+        "name": "direction_complement",
+        "pair": [
+          "less",
+          "greater"
+        ],
+        "swap_inputs": true,
+        "n_inputs": 500,
+        "tol": 1e-06,
+        "condition": "ties_fractional_w_cond_ranksum",
+        "gen": "spec.null_dist.disc",
+        "n": 20
+      },
+      {
+        "name": "direction_complement",
+        "pair": [
+          "less",
+          "greater"
+        ],
+        "swap_inputs": true,
+        "n_inputs": 500,
+        "tol": 1e-06,
+        "condition": "cont_stdnormal",
+        "gen": "spec.null_dist.cont",
+        "n": 20
+      }
+    ],
+    "l1": {
+      "seed_base": 20260807
+    }
+  },
+  "spec_md5": "2f80a480f1bc14282c6d7b845c30c6b1",
+  "functions": {
+    "less": "less_pvalue",
+    "greater": "greater_pvalue",
+    "two_sided": "two_sided_pvalue"
+  },
+  "function": "two_sided_pvalue",
+  "invariants": [
+    {
+      "name": "direction_complement",
+      "pair": [
+        "less",
+        "greater"
+      ],
+      "condition": "ties_fractional_w_cond_ranksum",
+      "tol": 1e-06,
+      "R": 500,
+      "n": 20,
+      "seed": 334171787
+    },
+    {
+      "name": "direction_complement",
+      "pair": [
+        "less",
+        "greater"
+      ],
+      "condition": "cont_stdnormal",
+      "tol": 1e-06,
+      "R": 500,
+      "n": 20,
+      "seed": 2963846927
+    }
+  ],
+  "content_md5": "2b5aa51286e9a54247b68f3df9b39a3f"
+}

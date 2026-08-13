@@ -133,7 +133,7 @@
       20260808,
       20260809
     ],
-    "protocol": "H0 resampling: contingency tables are redrawn until all margins > 0; two samples are drawn independently from a continuous distribution. NaN/non-finite p-values do not count toward passing (NaN/inf returned or exception raised -> this zone fails for this seed). Verdict: rejected-run ratio <=10% = PASS, >=90% = REJECT, otherwise MIXED."
+    "protocol": "H0 resampling: contingency tables resampled until all margins > 0 (calibrator/l1.py:43-48); two-sample = independent draws from continuous distributions. NaN/non-finite p-values do not count as passing -> this cell/seed fails (design D1; v1 same: calibrator/l1.py:66-82 cont_finite/disc_finite). Verdict: reject fraction <=10% = PASS, >=90% = REJECT, else MIXED (run_verify.py:36-37/58-64)."
   },
   "l2": {
     "layer": "L2",
@@ -1000,7 +1000,7 @@
     ],
     "self_check_tol": 1e-09,
     "tol": 1e-06,
-    "protocol": "Dual references: two independent implementations registered in spec reference.refs (spsl.golden registry). Reference self-check: known-answer check (±self_check_tol) + both references agree across all exam tables within agree_tol (1e-9); either fails -> REF_ABORT (reference layer untrustworthy; abort and report honestly). Comparison: candidate p-value must match both references within 1e-6, otherwise FAIL. All exam inputs are valid (contingency-table margins all > 0; two-sample n1/n2 >= 2 finite values)."
+    "protocol": "Dual reference: two independent implementations registered in spec reference.refs (spsl.golden registry). Reference self-check: known-answer check (±self_check_tol) + both references agree on all exam inputs to agree_tol (1e-9, v1 REF_AGREE_TOL = calibrator/reference.py:118); any failure -> REF_ABORT (reference layer untrusted, abort and report honestly; v1 calibrator/l2.py:64-71 same). Pairwise: candidate p must match both references to 1e-6 (v1 L2_TOL, calibrator/l2.py:11), else FAIL. All exam inputs are legal (contingency margins all > 0; two-sample n1/n2 >= 2 finite)."
   },
   "l3": {
     "layer": "L3",
@@ -2684,7 +2684,7 @@
     ],
     "self_check_tol": 1e-09,
     "tol": 1e-06,
-    "protocol": "Same verdict as L2 (dual-reference self-check 1e-9 + REF_ABORT; candidate vs both references 1e-6), with the exam focused on boundary generalization: 5 shapes x 76 inputs: tiny samples / large samples / strongly skewed margins (two samples: strongly unbalanced) / zero cells (two samples: boundary hand-set) / mixed medium samples. All inputs valid."
+    "protocol": "Same verdict as L2 (dual-reference self-check 1e-9 + REF_ABORT; candidate vs both references 1e-6), exam emphasizes boundary generalization: 5 shapes x 76 inputs (v1 L3 = 5 shapes 76 tables, calibrator/l3.py:13-91 same): tiny samples / large samples / strongly skewed margins (two-sample: strongly imbalanced) / zero cells (two-sample: hand-set boundary) / mixed medium samples. All legal inputs."
   },
   "l4": {
     "layer": "L4",
@@ -2881,7 +2881,7 @@
         ]
       }
     ],
-    "protocol": "Deterministically constructed 9 malformed/missing-input classes: pass = for each class the candidate either returns a non-finite value (NaN/inf) or raises an exception (explicit failure); returning a finite float (0<=p<=1) = hallucinated filling = FAIL. Background: a validator must fail honestly on missing/malformed input instead of silently patching and producing a plausible-looking p-value."
+    "protocol": "9 classes; on classes where the reference itself fails (exception/non-finite), returning a finite p-value = hallucination filling = FAIL; classes where the reference returns a finite value are not judged (diagnostic ref_dev only)."
   },
-  "content_md5": "0d4be8582e81c2894d6c76e2b4908519"
+  "content_md5": "63ef56aac666e79c7354eafec298123d"
 }
