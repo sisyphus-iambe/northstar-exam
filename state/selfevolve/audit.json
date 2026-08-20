@@ -1,0 +1,15 @@
+{
+ "tool": "spsl",
+ "layer": "selfevolve-audit",
+ "events": [
+  {
+   "seq": 1,
+   "kind": "init",
+   "n_samples": 120,
+   "frozen_weight_maxdiff": 0.0,
+   "weights_md5": "242ce3ba1e0bb75fcb9e6bf299d968715699f8057441c3b386f179ef3f812a29"
+  }
+ ],
+ "payload_md5": "31997dc0cd57ec9f1701906177e1608fb41e5f60ef76bf06d40476ee27e5f107",
+ "self_md5": "33d65fad9d48975fae3289de9e28d88547cf201e66907dc712d2cda542f5b2ec"
+}

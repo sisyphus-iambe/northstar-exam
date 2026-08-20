@@ -1,0 +1,802 @@
+{
+ "entries": [
+  {
+   "count": 2,
+   "epoch": 0,
+   "evidence": [
+    {
+     "label": 1,
+     "n_err": 0,
+     "n_l4_err": 9,
+     "name": "cand:nan_always"
+    },
+    {
+     "label": 1,
+     "n_err": 0,
+     "n_l4_err": 8,
+     "name": "cand:nan_exam_tables"
+    }
+   ],
+   "subject": "cand",
+   "task_family": "chi2",
+   "viol_class": "pure_dev"
+  },
+  {
+   "count": 3,
+   "epoch": 0,
+   "evidence": [
+    {
+     "label": 0,
+     "n_err": 0,
+     "n_l4_err": 7,
+     "name": "cert:b_gof_wrong_exp"
+    },
+    {
+     "label": 0,
+     "n_err": 0,
+     "n_l4_err": 7,
+     "name": "cert:correct"
+    },
+    {
+     "label": 0,
+     "n_err": 0,
+     "n_l4_err": 7,
+     "name": "cert:d_missing_fn"
+    }
+   ],
+   "subject": "cert",
+   "task_family": "chi2",
+   "viol_class": "l4_honest"
+  },
+  {
+   "count": 2,
+   "epoch": 0,
+   "evidence": [
+    {
+     "label": 1,
+     "n_err": 0,
+     "n_l4_err": 7,
+     "name": "cert:a_p_noised"
+    },
+    {
+     "label": 1,
+     "n_err": 0,
+     "n_l4_err": 0,
+     "name": "cert:c_const_half"
+    }
+   ],
+   "subject": "cert",
+   "task_family": "chi2",
+   "viol_class": "pure_dev"
+  },
+  {
+   "count": 3,
+   "epoch": 0,
+   "evidence": [
+    {
+     "label": 1,
+     "n_err": 5,
+     "n_l4_err": 9,
+     "name": "g3:g3_llm_09"
+    },
+    {
+     "label": 1,
+     "n_err": 116,
+     "n_l4_err": 9,
+     "name": "g3:g3_llm_14"
+    },
+    {
+     "label": 1,
+     "n_err": 5,
+     "n_l4_err": 9,
+     "name": "g3:g3_llm_17"
+    }
+   ],
+   "subject": "g3",
+   "task_family": "chi2",
+   "viol_class": "exec_fail"
+  },
+  {
+   "count": 8,
+   "epoch": 0,
+   "evidence": [
+    {
+     "label": 0,
+     "n_err": 0,
+     "n_l4_err": 9,
+     "name": "g3:g3_llm_01"
+    },
+    {
+     "label": 0,
+     "n_err": 0,
+     "n_l4_err": 7,
+     "name": "g3:g3_llm_04"
+    },
+    {
+     "label": 0,
+     "n_err": 0,
+     "n_l4_err": 5,
+     "name": "g3:g3_llm_06"
+    },
+    {
+     "label": 0,
+     "n_err": 0,
+     "n_l4_err": 9,
+     "name": "g3:g3_llm_07"
+    },
+    {
+     "label": 0,
+     "n_err": 0,
+     "n_l4_err": 6,
+     "name": "g3:g3_llm_10"
+    },
+    {
+     "label": 0,
+     "n_err": 0,
+     "n_l4_err": 5,
+     "name": "g3:g3_llm_13"
+    },
+    {
+     "label": 0,
+     "n_err": 0,
+     "n_l4_err": 5,
+     "name": "g3:g3_llm_19"
+    },
+    {
+     "label": 0,
+     "n_err": 0,
+     "n_l4_err": 9,
+     "name": "g3:g3_llm_20"
+    }
+   ],
+   "subject": "g3",
+   "task_family": "chi2",
+   "viol_class": "l4_honest"
+  },
+  {
+   "count": 8,
+   "epoch": 0,
+   "evidence": [
+    {
+     "label": 1,
+     "n_err": 0,
+     "n_l4_err": 9,
+     "name": "g3:g3_llm_02"
+    },
+    {
+     "label": 1,
+     "n_err": 0,
+     "n_l4_err": 5,
+     "name": "g3:g3_llm_03"
+    },
+    {
+     "label": 1,
+     "n_err": 0,
+     "n_l4_err": 6,
+     "name": "g3:g3_llm_05"
+    },
+    {
+     "label": 1,
+     "n_err": 0,
+     "n_l4_err": 6,
+     "name": "g3:g3_llm_08"
+    },
+    {
+     "label": 1,
+     "n_err": 0,
+     "n_l4_err": 6,
+     "name": "g3:g3_llm_11"
+    },
+    {
+     "label": 1,
+     "n_err": 0,
+     "n_l4_err": 7,
+     "name": "g3:g3_llm_15"
+    },
+    {
+     "label": 1,
+     "n_err": 0,
+     "n_l4_err": 7,
+     "name": "g3:g3_llm_16"
+    },
+    {
+     "label": 1,
+     "n_err": 0,
+     "n_l4_err": 5,
+     "name": "g3:g3_llm_18"
+    }
+   ],
+   "subject": "g3",
+   "task_family": "chi2",
+   "viol_class": "pure_dev"
+  },
+  {
+   "count": 3,
+   "epoch": 0,
+   "evidence": [
+    {
+     "label": 1,
+     "n_err": 92,
+     "n_l4_err": 7,
+     "name": "g3_p1:g3_llm_01"
+    },
+    {
+     "label": 1,
+     "n_err": 5,
+     "n_l4_err": 7,
+     "name": "g3_p1:g3_llm_07"
+    },
+    {
+     "label": 1,
+     "n_err": 43,
+     "n_l4_err": 5,
+     "name": "g3_p1:g3_llm_14"
+    }
+   ],
+   "subject": "g3_p1",
+   "task_family": "chi2",
+   "viol_class": "exec_fail"
+  },
+  {
+   "count": 3,
+   "epoch": 0,
+   "evidence": [
+    {
+     "label": 0,
+     "n_err": 0,
+     "n_l4_err": 9,
+     "name": "g3_p1:g3_llm_05"
+    },
+    {
+     "label": 0,
+     "n_err": 0,
+     "n_l4_err": 5,
+     "name": "g3_p1:g3_llm_11"
+    },
+    {
+     "label": 0,
+     "n_err": 0,
+     "n_l4_err": 5,
+     "name": "g3_p1:g3_llm_13"
+    }
+   ],
+   "subject": "g3_p1",
+   "task_family": "chi2",
+   "viol_class": "l4_honest"
+  },
+  {
+   "count": 8,
+   "epoch": 0,
+   "evidence": [
+    {
+     "label": 1,
+     "n_err": 0,
+     "n_l4_err": 5,
+     "name": "g3_p1:g3_llm_02"
+    },
+    {
+     "label": 1,
+     "n_err": 0,
+     "n_l4_err": 6,
+     "name": "g3_p1:g3_llm_03"
+    },
+    {
+     "label": 1,
+     "n_err": 0,
+     "n_l4_err": 6,
+     "name": "g3_p1:g3_llm_06"
+    },
+    {
+     "label": 1,
+     "n_err": 0,
+     "n_l4_err": 7,
+     "name": "g3_p1:g3_llm_10"
+    },
+    {
+     "label": 1,
+     "n_err": 0,
+     "n_l4_err": 6,
+     "name": "g3_p1:g3_llm_15"
+    },
+    {
+     "label": 1,
+     "n_err": 0,
+     "n_l4_err": 7,
+     "name": "g3_p1:g3_llm_16"
+    },
+    {
+     "label": 1,
+     "n_err": 0,
+     "n_l4_err": 5,
+     "name": "g3_p1:g3_llm_18"
+    },
+    {
+     "label": 1,
+     "n_err": 0,
+     "n_l4_err": 6,
+     "name": "g3_p1:g3_llm_19"
+    }
+   ],
+   "subject": "g3_p1",
+   "task_family": "chi2",
+   "viol_class": "pure_dev"
+  },
+  {
+   "count": 2,
+   "epoch": 0,
+   "evidence": [
+    {
+     "label": 0,
+     "n_err": 0,
+     "n_l4_err": 7,
+     "name": "p1ch:cheat_diag_shortcut"
+    },
+    {
+     "label": 0,
+     "n_err": 0,
+     "n_l4_err": 7,
+     "name": "p1ch:cheat_stat_saturate"
+    }
+   ],
+   "subject": "p1ch",
+   "task_family": "chi2",
+   "viol_class": "l4_honest"
+  },
+  {
+   "count": 1,
+   "epoch": 0,
+   "evidence": [
+    {
+     "label": 0,
+     "n_err": 0,
+     "n_l4_err": 9,
+     "name": "prog:correct_chi2"
+    }
+   ],
+   "subject": "prog",
+   "task_family": "chi2",
+   "viol_class": "l4_honest"
+  },
+  {
+   "count": 1,
+   "epoch": 0,
+   "evidence": [
+    {
+     "label": 1,
+     "n_err": 0,
+     "n_l4_err": 0,
+     "name": "prog:wrong_chi2"
+    }
+   ],
+   "subject": "prog",
+   "task_family": "chi2",
+   "viol_class": "pure_dev"
+  },
+  {
+   "count": 5,
+   "epoch": 0,
+   "evidence": [
+    {
+     "label": 0,
+     "n_err": 0,
+     "n_l4_err": 6,
+     "name": "scon:a_wrong_dof"
+    },
+    {
+     "label": 0,
+     "n_err": 0,
+     "n_l4_err": 6,
+     "name": "scon:b_wrong_stat"
+    },
+    {
+     "label": 0,
+     "n_err": 0,
+     "n_l4_err": 6,
+     "name": "scon:c_wrong_missing"
+    },
+    {
+     "label": 0,
+     "n_err": 0,
+     "n_l4_err": 6,
+     "name": "scon:correct"
+    },
+    {
+     "label": 0,
+     "n_err": 0,
+     "n_l4_err": 6,
+     "name": "scon:d_wrong_dtype"
+    }
+   ],
+   "subject": "scon",
+   "task_family": "chi2",
+   "viol_class": "l4_honest"
+  },
+  {
+   "count": 15,
+   "epoch": 0,
+   "evidence": [
+    {
+     "label": 1,
+     "n_err": 111,
+     "n_l4_err": 6,
+     "name": "vg:vg_01_b2"
+    },
+    {
+     "label": 1,
+     "n_err": 111,
+     "n_l4_err": 6,
+     "name": "vg:vg_02_b3"
+    },
+    {
+     "label": 1,
+     "n_err": 93,
+     "n_l4_err": 5,
+     "name": "vg:vg_02_b5"
+    },
+    {
+     "label": 1,
+     "n_err": 5,
+     "n_l4_err": 9,
+     "name": "vg:vg_03_a"
+    },
+    {
+     "label": 1,
+     "n_err": 5,
+     "n_l4_err": 5,
+     "name": "vg:vg_03_b1"
+    },
+    {
+     "label": 1,
+     "n_err": 116,
+     "n_l4_err": 6,
+     "name": "vg:vg_03_b4"
+    },
+    {
+     "label": 1,
+     "n_err": 5,
+     "n_l4_err": 6,
+     "name": "vg:vg_04_b2"
+    },
+    {
+     "label": 1,
+     "n_err": 5,
+     "n_l4_err": 9,
+     "name": "vg:vg_04_b3"
+    },
+    {
+     "label": 1,
+     "n_err": 5,
+     "n_l4_err": 5,
+     "name": "vg:vg_05_b3"
+    },
+    {
+     "label": 1,
+     "n_err": 76,
+     "n_l4_err": 9,
+     "name": "vg:vg_06_b4"
+    },
+    {
+     "label": 1,
+     "n_err": 5,
+     "n_l4_err": 6,
+     "name": "vg:vg_07_b2"
+    },
+    {
+     "label": 1,
+     "n_err": 59,
+     "n_l4_err": 6,
+     "name": "vg:vg_07_b3"
+    },
+    {
+     "label": 1,
+     "n_err": 5,
+     "n_l4_err": 6,
+     "name": "vg:vg_08_b3"
+    },
+    {
+     "label": 1,
+     "n_err": 111,
+     "n_l4_err": 6,
+     "name": "vg:vg_08_b4"
+    },
+    {
+     "label": 1,
+     "n_err": 111,
+     "n_l4_err": 5,
+     "name": "vg:vg_10_b5"
+    }
+   ],
+   "subject": "vg",
+   "task_family": "chi2",
+   "viol_class": "exec_fail"
+  },
+  {
+   "count": 32,
+   "epoch": 0,
+   "evidence": [
+    {
+     "label": 0,
+     "n_err": 0,
+     "n_l4_err": 6,
+     "name": "vg:vg_06_b2"
+    },
+    {
+     "label": 0,
+     "n_err": 0,
+     "n_l4_err": 6,
+     "name": "vg:vg_06_b5"
+    },
+    {
+     "label": 0,
+     "n_err": 0,
+     "n_l4_err": 5,
+     "name": "vg:vg_07_a"
+    },
+    {
+     "label": 0,
+     "n_err": 0,
+     "n_l4_err": 9,
+     "name": "vg:vg_07_b1"
+    },
+    {
+     "label": 0,
+     "n_err": 0,
+     "n_l4_err": 6,
+     "name": "vg:vg_07_b4"
+    },
+    {
+     "label": 0,
+     "n_err": 0,
+     "n_l4_err": 6,
+     "name": "vg:vg_08_a"
+    },
+    {
+     "label": 0,
+     "n_err": 0,
+     "n_l4_err": 6,
+     "name": "vg:vg_08_b2"
+    },
+    {
+     "label": 0,
+     "n_err": 0,
+     "n_l4_err": 6,
+     "name": "vg:vg_09_b1"
+    },
+    {
+     "label": 0,
+     "n_err": 0,
+     "n_l4_err": 6,
+     "name": "vg:vg_09_b2"
+    },
+    {
+     "label": 0,
+     "n_err": 0,
+     "n_l4_err": 6,
+     "name": "vg:vg_09_b5"
+    },
+    {
+     "label": 0,
+     "n_err": 0,
+     "n_l4_err": 5,
+     "name": "vg:vg_10_b2"
+    },
+    {
+     "label": 0,
+     "n_err": 0,
+     "n_l4_err": 5,
+     "name": "vg:vg_10_b3"
+    },
+    {
+     "label": 0,
+     "n_err": 0,
+     "n_l4_err": 6,
+     "name": "vg:vg_10_b4"
+    },
+    {
+     "label": 0,
+     "n_err": 0,
+     "n_l4_err": 5,
+     "name": "vg:vg_11_b1"
+    },
+    {
+     "label": 0,
+     "n_err": 0,
+     "n_l4_err": 5,
+     "name": "vg:vg_11_b3"
+    },
+    {
+     "label": 0,
+     "n_err": 0,
+     "n_l4_err": 6,
+     "name": "vg:vg_11_b5"
+    },
+    {
+     "label": 0,
+     "n_err": 0,
+     "n_l4_err": 5,
+     "name": "vg:vg_12_a"
+    },
+    {
+     "label": 0,
+     "n_err": 0,
+     "n_l4_err": 5,
+     "name": "vg:vg_12_b1"
+    },
+    {
+     "label": 0,
+     "n_err": 0,
+     "n_l4_err": 9,
+     "name": "vg:vg_12_b3"
+    },
+    {
+     "label": 0,
+     "n_err": 0,
+     "n_l4_err": 5,
+     "name": "vg:vg_12_b5"
+    }
+   ],
+   "subject": "vg",
+   "task_family": "chi2",
+   "viol_class": "l4_honest"
+  },
+  {
+   "count": 24,
+   "epoch": 0,
+   "evidence": [
+    {
+     "label": 1,
+     "n_err": 0,
+     "n_l4_err": 6,
+     "name": "vg:vg_01_b1"
+    },
+    {
+     "label": 1,
+     "n_err": 0,
+     "n_l4_err": 5,
+     "name": "vg:vg_01_b3"
+    },
+    {
+     "label": 1,
+     "n_err": 0,
+     "n_l4_err": 6,
+     "name": "vg:vg_01_b4"
+    },
+    {
+     "label": 1,
+     "n_err": 0,
+     "n_l4_err": 6,
+     "name": "vg:vg_03_b3"
+    },
+    {
+     "label": 1,
+     "n_err": 0,
+     "n_l4_err": 6,
+     "name": "vg:vg_04_a"
+    },
+    {
+     "label": 1,
+     "n_err": 0,
+     "n_l4_err": 9,
+     "name": "vg:vg_04_b1"
+    },
+    {
+     "label": 1,
+     "n_err": 0,
+     "n_l4_err": 7,
+     "name": "vg:vg_04_b5"
+    },
+    {
+     "label": 1,
+     "n_err": 0,
+     "n_l4_err": 9,
+     "name": "vg:vg_05_a"
+    },
+    {
+     "label": 1,
+     "n_err": 0,
+     "n_l4_err": 6,
+     "name": "vg:vg_05_b4"
+    },
+    {
+     "label": 1,
+     "n_err": 0,
+     "n_l4_err": 5,
+     "name": "vg:vg_06_a"
+    },
+    {
+     "label": 1,
+     "n_err": 0,
+     "n_l4_err": 6,
+     "name": "vg:vg_06_b1"
+    },
+    {
+     "label": 1,
+     "n_err": 0,
+     "n_l4_err": 6,
+     "name": "vg:vg_07_b5"
+    },
+    {
+     "label": 1,
+     "n_err": 0,
+     "n_l4_err": 5,
+     "name": "vg:vg_08_b1"
+    },
+    {
+     "label": 1,
+     "n_err": 0,
+     "n_l4_err": 5,
+     "name": "vg:vg_08_b5"
+    },
+    {
+     "label": 1,
+     "n_err": 0,
+     "n_l4_err": 6,
+     "name": "vg:vg_09_a"
+    },
+    {
+     "label": 1,
+     "n_err": 0,
+     "n_l4_err": 7,
+     "name": "vg:vg_09_b3"
+    },
+    {
+     "label": 1,
+     "n_err": 0,
+     "n_l4_err": 5,
+     "name": "vg:vg_09_b4"
+    },
+    {
+     "label": 1,
+     "n_err": 0,
+     "n_l4_err": 5,
+     "name": "vg:vg_10_a"
+    },
+    {
+     "label": 1,
+     "n_err": 0,
+     "n_l4_err": 6,
+     "name": "vg:vg_10_b1"
+    },
+    {
+     "label": 1,
+     "n_err": 0,
+     "n_l4_err": 7,
+     "name": "vg:vg_11_a"
+    },
+    {
+     "label": 1,
+     "n_err": 0,
+     "n_l4_err": 6,
+     "name": "vg:vg_11_b2"
+    },
+    {
+     "label": 1,
+     "n_err": 0,
+     "n_l4_err": 6,
+     "name": "vg:vg_11_b4"
+    },
+    {
+     "label": 1,
+     "n_err": 0,
+     "n_l4_err": 9,
+     "name": "vg:vg_12_b2"
+    },
+    {
+     "label": 1,
+     "n_err": 0,
+     "n_l4_err": 6,
+     "name": "vg:vg_12_b4"
+    }
+   ],
+   "subject": "vg",
+   "task_family": "chi2",
+   "viol_class": "pure_dev"
+  }
+ ],
+ "layer": "profile-v1",
+ "n_samples": 120,
+ "payload_md5": "0694093857bf86dbefbfb668639fec301d5ddac587995fd4eda4b3f1b74e021a",
+ "self_md5": "69427f323975b1ae8bb30d42e0ef8844ea182ec9dc779dc92d2ae7150eea8ec3",
+ "src": "../gate_learn_2026-08-19/gatelearn_data.json",
+ "tool": "northstar"
+}
